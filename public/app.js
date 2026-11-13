@@ -24,8 +24,18 @@ story.innerHTML=scenes.map((s,i)=>`<section class="scene ${s.id==='lineage'?'lin
   ${i===count-1?'<a class="signup-link" href="#signup">Sign up for Become Worth <span aria-hidden="true">↗</span></a>':''}
   ${s.n?`<p class="scene-note">${s.n}</p>`:''}</div>
   <figure class="scene-art"><img src="/assets/${s.im}.webp" alt="${s.alt}" ${i<2?'fetchpriority="high"':'loading="lazy"'} decoding="async" width="1440" height="960"><figcaption>${s.id==='lineage'?'TWO LEGACIES / HER OWN FIRE':s.cap}</figcaption></figure>
-  <div class="scene-bottom"><span>${String(i+1).padStart(2,'0')} / 12</span><span>${i===0?'SCROLL TO BEGIN ↓':i===count-1?'YOUR NEXT CHAPTER BEGINS BELOW ↓':'THE STORY CONTINUES ↓'}</span></div>
+  ${i===0?'<p class="scroll-invitation">Scroll to begin <span aria-hidden="true">↓</span></p>':''}
  </div></section>`).join('');
+const revealTargets=[...document.querySelectorAll('.scene,.signup')];
+// Native page scroll remains in control; the observer only reveals arriving content.
+const observer=new IntersectionObserver(entries=>{
+ for(const entry of entries){
+  entry.target.classList.toggle('is-visible',entry.isIntersecting);
+ }
+},{threshold:.12,rootMargin:'0px 0px -8% 0px'});
+revealTargets.forEach(el=>observer.observe(el));
+revealTargets[0].classList.add('is-visible');
+document.documentElement.classList.add('motion-ready');
 const lineage=document.querySelector('#lineage');
 lineage.querySelector('.scene-copy').innerHTML=`<div class="lineage-beats">
  <div class="lineage-beat"><span class="eyebrow">SARIKA × KAMAL HAASAN</span><h2 id="title-lineage">Two legacies.<br><em>One thread.</em></h2><p class="scene-description">An inheritance. Not a script.</p></div>
@@ -47,6 +57,13 @@ function paint(){
  lineage.style.setProperty('--lineage-drift',(-progress*18).toFixed(2)+'px');
  const beat=reduced.matches?2:progress<.30?0:progress<.68?1:2;
  if(beat!==activeBeat){beats.forEach((el,i)=>{el.classList.toggle('active',i===beat);el.setAttribute('aria-hidden',String(i!==beat))});activeBeat=beat;}
+ for(const scene of revealTargets){
+  if(scene===lineage)continue;
+  const r=scene.getBoundingClientRect();
+  if(r.bottom<0||r.top>innerHeight)continue;
+  const position=clamp((innerHeight-r.top)/(innerHeight+r.height));
+  scene.style.setProperty('--scene-drift',reduced.matches?'0px':((position-.5)*-36).toFixed(2)+'px');
+ }
  const range=document.documentElement.scrollHeight-innerHeight;
  document.querySelector('.reading-progress span').style.transform=`scaleX(${clamp(scrollY/Math.max(1,range))})`;
 }
