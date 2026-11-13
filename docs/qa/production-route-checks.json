@@ -6,7 +6,7 @@
     "canonical": "https://shruthimatrimony.com/",
     "h1Count": 1,
     "title": "Shruthi Matrimony — Become Worth | A Modern Swayamvar",
-    "bytes": 16951,
+    "bytes": 28627,
     "headers": {
       "content-security-policy": null,
       "content-security-policy-report-only": null,
@@ -25,7 +25,7 @@
     "canonical": "https://shruthimatrimony.com/for-shruti",
     "h1Count": 1,
     "title": "A note to Shruti &amp; her team — Shruthi Matrimony",
-    "bytes": 6516,
+    "bytes": 9754,
     "headers": {
       "content-security-policy": null,
       "content-security-policy-report-only": null,
@@ -110,6 +110,158 @@
       "strict-transport-security": "max-age=31536000",
       "x-content-type-options": "nosniff",
       "x-frame-options": "SAMEORIGIN",
+      "x-powered-by": null
+    }
+  },
+  {
+    "route": "/llms.txt",
+    "status": 200,
+    "location": null,
+    "canonical": "",
+    "h1Count": 0,
+    "title": "",
+    "bytes": 0,
+    "headers": {
+      "content-security-policy": null,
+      "content-security-policy-report-only": null,
+      "permissions-policy": "camera=(), microphone=(), geolocation=()",
+      "referrer-policy": "strict-origin-when-cross-origin",
+      "strict-transport-security": "max-age=31536000",
+      "x-content-type-options": "nosniff",
+      "x-frame-options": "SAMEORIGIN",
+      "x-powered-by": null
+    }
+  },
+  {
+    "route": "/social/story.jpg",
+    "status": 200,
+    "location": null,
+    "canonical": "",
+    "h1Count": 0,
+    "title": "",
+    "bytes": 0,
+    "headers": {
+      "content-security-policy": null,
+      "content-security-policy-report-only": null,
+      "permissions-policy": "camera=(), microphone=(), geolocation=()",
+      "referrer-policy": "strict-origin-when-cross-origin",
+      "strict-transport-security": "max-age=31536000",
+      "x-content-type-options": "nosniff",
+      "x-frame-options": "SAMEORIGIN",
+      "x-powered-by": null
+    }
+  },
+  {
+    "route": "/social/for-shruti.jpg",
+    "status": 200,
+    "location": null,
+    "canonical": "",
+    "h1Count": 0,
+    "title": "",
+    "bytes": 0,
+    "headers": {
+      "content-security-policy": null,
+      "content-security-policy-report-only": null,
+      "permissions-policy": "camera=(), microphone=(), geolocation=()",
+      "referrer-policy": "strict-origin-when-cross-origin",
+      "strict-transport-security": "max-age=31536000",
+      "x-content-type-options": "nosniff",
+      "x-frame-options": "SAMEORIGIN",
+      "x-powered-by": null
+    }
+  },
+  {
+    "route": "/assets/trails/monster.webp",
+    "status": 200,
+    "location": null,
+    "canonical": "",
+    "h1Count": 0,
+    "title": "",
+    "bytes": 0,
+    "headers": {
+      "content-security-policy": null,
+      "content-security-policy-report-only": null,
+      "permissions-policy": "camera=(), microphone=(), geolocation=()",
+      "referrer-policy": "strict-origin-when-cross-origin",
+      "strict-transport-security": "max-age=31536000",
+      "x-content-type-options": "nosniff",
+      "x-frame-options": "SAMEORIGIN",
+      "x-powered-by": null
+    }
+  },
+  {
+    "route": "/assets/trails/divine.webp",
+    "status": 200,
+    "location": null,
+    "canonical": "",
+    "h1Count": 0,
+    "title": "",
+    "bytes": 0,
+    "headers": {
+      "content-security-policy": null,
+      "content-security-policy-report-only": null,
+      "permissions-policy": "camera=(), microphone=(), geolocation=()",
+      "referrer-policy": "strict-origin-when-cross-origin",
+      "strict-transport-security": "max-age=31536000",
+      "x-content-type-options": "nosniff",
+      "x-frame-options": "SAMEORIGIN",
+      "x-powered-by": null
+    }
+  },
+  {
+    "route": "/assets/trails/integration.webp",
+    "status": 200,
+    "location": null,
+    "canonical": "",
+    "h1Count": 0,
+    "title": "",
+    "bytes": 0,
+    "headers": {
+      "content-security-policy": null,
+      "content-security-policy-report-only": null,
+      "permissions-policy": "camera=(), microphone=(), geolocation=()",
+      "referrer-policy": "strict-origin-when-cross-origin",
+      "strict-transport-security": "max-age=31536000",
+      "x-content-type-options": "nosniff",
+      "x-frame-options": "SAMEORIGIN",
+      "x-powered-by": null
+    }
+  },
+  {
+    "route": "/assets/invitation.webp",
+    "status": 301,
+    "location": "/assets/drawings/invitation-1080.webp",
+    "canonical": "",
+    "h1Count": 0,
+    "title": "",
+    "bytes": 0,
+    "headers": {
+      "content-security-policy": null,
+      "content-security-policy-report-only": null,
+      "permissions-policy": null,
+      "referrer-policy": null,
+      "strict-transport-security": "max-age=31536000",
+      "x-content-type-options": null,
+      "x-frame-options": null,
+      "x-powered-by": null
+    }
+  },
+  {
+    "route": "/assets/work.webp",
+    "status": 301,
+    "location": "/assets/drawings/work-1080.webp",
+    "canonical": "",
+    "h1Count": 0,
+    "title": "",
+    "bytes": 0,
+    "headers": {
+      "content-security-policy": null,
+      "content-security-policy-report-only": null,
+      "permissions-policy": null,
+      "referrer-policy": null,
+      "strict-transport-security": "max-age=31536000",
+      "x-content-type-options": null,
+      "x-frame-options": null,
       "x-powered-by": null
     }
   }

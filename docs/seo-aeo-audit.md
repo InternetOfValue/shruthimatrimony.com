@@ -58,3 +58,7 @@ The prior article-oriented AEO heuristic was a limited baseline, not a campaign 
 - `node /Users/mosessampaul/.codex/skills/run-iov-web-quality-audit/scripts/route-matrix.mjs https://shruthimatrimony.com / /for-shruti /privacy /sitemap.xml /robots.txt /favicon.svg /llms.txt`
 
 Evidence is retained in `docs/qa/`. Trail source attribution is recorded in `docs/trail-artwork-sources.md`. No visitor details or submission contents are recorded in these files.
+
+## Published release verification
+
+The post-deployment route matrix returned 200 on all twelve current routes/assets checked, including both public pages, all three dragon thumbnails and both social cards. Two representative legacy illustration URLs returned the expected 301 to optimized variants. The live page exposed all five FAQ entries and the six-node homepage graph; the native FAQ toggle and footer removal were verified in the browser. Layout checks passed at 320px and 360px widths without horizontal overflow.
