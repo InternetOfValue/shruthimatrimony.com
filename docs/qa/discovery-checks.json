@@ -1,0 +1,23 @@
+{
+  "pages": [
+    {
+      "page": "index.html",
+      "h1": 1,
+      "entities": 6,
+      "faqQuestions": 5,
+      "canonical": "https://shruthimatrimony.com/",
+      "valid": true
+    },
+    {
+      "page": "for-shruti.html",
+      "h1": 1,
+      "entities": 5,
+      "faqQuestions": 0,
+      "canonical": "https://shruthimatrimony.com/for-shruti",
+      "valid": true
+    }
+  ],
+  "trailArtworkBytes": 42970,
+  "largestDisplayImage": 157630,
+  "pass": true
+}

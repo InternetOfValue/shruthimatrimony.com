@@ -28,13 +28,14 @@
  function prepare(frame){
   const img=frame.querySelector('.scene-art > img');if(!img.complete||!img.naturalWidth)return false;
   const figure=img.parentElement;
-  if(owner!==figure){
+  const source=img.currentSrc||img.src;
+  if(owner!==figure||canvas.dataset.source!==source){
    detach();owner=figure;figure.appendChild(canvas);
-   canvas.width=Math.min(960,img.naturalWidth);canvas.height=Math.round(canvas.width*img.naturalHeight/img.naturalWidth);gl.viewport(0,0,canvas.width,canvas.height);
+   const sourceWidth=Number((img.currentSrc||img.src).match(/-(\d+)\.webp/)?.[1])||img.naturalWidth;canvas.width=Math.min(960,sourceWidth);canvas.height=Math.round(canvas.width*2/3);canvas.dataset.source=source;gl.viewport(0,0,canvas.width,canvas.height);
   }
-  let item=cache.get(img.src);
+  let item=cache.get(source);
   if(!item){
-   item=gl.createTexture();gl.bindTexture(gl.TEXTURE_2D,item);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,img);cache.set(img.src,item);
+   item=gl.createTexture();gl.bindTexture(gl.TEXTURE_2D,item);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,img);cache.set(source,item);
    if(cache.size>3){const [key,old]=cache.entries().next().value;gl.deleteTexture(old);cache.delete(key);}
   }
   texture=item;return true;

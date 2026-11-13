@@ -6,7 +6,7 @@
     "canonical": "https://shruthimatrimony.com/",
     "h1Count": 1,
     "title": "Shruthi Matrimony — Become Worth | A Modern Swayamvar",
-    "bytes": 16998,
+    "bytes": 28681,
     "headers": {
       "content-security-policy": null,
       "content-security-policy-report-only": null,
@@ -25,7 +25,7 @@
     "canonical": "https://shruthimatrimony.com/for-shruti",
     "h1Count": 1,
     "title": "A note to Shruti &amp; her team — Shruthi Matrimony",
-    "bytes": 6565,
+    "bytes": 9803,
     "headers": {
       "content-security-policy": null,
       "content-security-policy-report-only": null,
@@ -96,6 +96,120 @@
   },
   {
     "route": "/favicon.svg",
+    "status": 200,
+    "location": null,
+    "canonical": "",
+    "h1Count": 0,
+    "title": "",
+    "bytes": 0,
+    "headers": {
+      "content-security-policy": null,
+      "content-security-policy-report-only": null,
+      "permissions-policy": null,
+      "referrer-policy": null,
+      "strict-transport-security": null,
+      "x-content-type-options": null,
+      "x-frame-options": null,
+      "x-powered-by": null
+    }
+  },
+  {
+    "route": "/llms.txt",
+    "status": 200,
+    "location": null,
+    "canonical": "",
+    "h1Count": 0,
+    "title": "",
+    "bytes": 0,
+    "headers": {
+      "content-security-policy": null,
+      "content-security-policy-report-only": null,
+      "permissions-policy": null,
+      "referrer-policy": null,
+      "strict-transport-security": null,
+      "x-content-type-options": null,
+      "x-frame-options": null,
+      "x-powered-by": null
+    }
+  },
+  {
+    "route": "/social/story.jpg",
+    "status": 200,
+    "location": null,
+    "canonical": "",
+    "h1Count": 0,
+    "title": "",
+    "bytes": 0,
+    "headers": {
+      "content-security-policy": null,
+      "content-security-policy-report-only": null,
+      "permissions-policy": null,
+      "referrer-policy": null,
+      "strict-transport-security": null,
+      "x-content-type-options": null,
+      "x-frame-options": null,
+      "x-powered-by": null
+    }
+  },
+  {
+    "route": "/social/for-shruti.jpg",
+    "status": 200,
+    "location": null,
+    "canonical": "",
+    "h1Count": 0,
+    "title": "",
+    "bytes": 0,
+    "headers": {
+      "content-security-policy": null,
+      "content-security-policy-report-only": null,
+      "permissions-policy": null,
+      "referrer-policy": null,
+      "strict-transport-security": null,
+      "x-content-type-options": null,
+      "x-frame-options": null,
+      "x-powered-by": null
+    }
+  },
+  {
+    "route": "/assets/trails/monster.webp",
+    "status": 200,
+    "location": null,
+    "canonical": "",
+    "h1Count": 0,
+    "title": "",
+    "bytes": 0,
+    "headers": {
+      "content-security-policy": null,
+      "content-security-policy-report-only": null,
+      "permissions-policy": null,
+      "referrer-policy": null,
+      "strict-transport-security": null,
+      "x-content-type-options": null,
+      "x-frame-options": null,
+      "x-powered-by": null
+    }
+  },
+  {
+    "route": "/assets/trails/divine.webp",
+    "status": 200,
+    "location": null,
+    "canonical": "",
+    "h1Count": 0,
+    "title": "",
+    "bytes": 0,
+    "headers": {
+      "content-security-policy": null,
+      "content-security-policy-report-only": null,
+      "permissions-policy": null,
+      "referrer-policy": null,
+      "strict-transport-security": null,
+      "x-content-type-options": null,
+      "x-frame-options": null,
+      "x-powered-by": null
+    }
+  },
+  {
+    "route": "/assets/trails/integration.webp",
     "status": 200,
     "location": null,
     "canonical": "",

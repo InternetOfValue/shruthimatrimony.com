@@ -1,54 +1,60 @@
-# Shruthi Matrimony — SEO, AEO and motion review
+# Shruthi Matrimony — SEO/AEO fixes and verification
 
-Reviewed 13 November 2026. Scope: `/`, `/for-shruti`, `/privacy`, robots, sitemap, favicon, story illustrations, and both contact forms. This is a small static creative campaign, not an official celebrity matchmaking service.
+Updated 13 November 2026. Scope: the cinematic homepage, `/for-shruti`, the utility privacy notice, metadata, structured data, FAQ, trail resources, images, robots, sitemap and optional `llms.txt`.
 
-## Findings and evidence
+## Implemented fixes
 
-| Priority | Finding | Result / next action |
-|---|---|---|
-| High, addressed in the animation rendering refactor | The initial HTML previously contained an empty story and no H1. | The twelve scenes now exist in the response HTML; one H1 and subsequent H2 headings are available without JavaScript. The cinematic layer enhances that same content. `node scripts/render-story.mjs` maintains the HTML. |
-| Medium, improved for mobile animation | All twelve full illustrations previously fetched at startup, about 3.8 MB in total. | Two initial full drawings now total 644,032 bytes; later drawings fetch ahead of the current scene. This is an asset total, not a measured full-page transfer or Core Web Vitals result. |
-| Medium, open | Eleven individual illustrations exceed the audit's generic 250 KB display-image budget. | They are already WebP, each below 357 KB. Responsive smaller variants could reduce transfers further; the originals were preserved. |
-| Medium, open | No structured data or dedicated factual programme/FAQ page. | Consider a truthful WebSite/Person graph and a short reader-visible explanation of the proposed programme. Do not represent Shruti as an organiser, partner or attached cast member, or invent course dates, prices, reviews, or offers. |
-| Low, open | The team page has a canonical and description but no dedicated social-card metadata; the homepage has Open Graph but no explicit Twitter card. | Optional social-sharing polish in a later release. |
-| Informational | Privacy intentionally has `noindex` and is excluded from the sitemap. | Appropriate for a utility notice. The two public story/context routes are in the sitemap. |
-| Informational | Custom-domain HTTPS and WWW redirect were already configured. | Production route matrix checks direct responses, canonical agreement and Netlify security headers. |
+| Finding | Release result |
+|---|---|
+| Story previously absent from initial HTML | All twelve scenes remain in the response HTML. Each public page has one H1 and crawlable contextual text, links and authorship. Motion enhances that HTML. |
+| Missing structured data | Both public pages have a JSON-LD entity graph: WebSite, WebPage, Person, Organization and the fictional CreativeWork Seraphina. The homepage also has a FAQPage graph describing the actual visible questions and answers. |
+| Missing concise programme explanation | Five native expandable FAQ answers cover independence, the proposed 90-day journey, no date/introduction offer, interest-list signup, and the existing HouseOfBros trail resources. |
+| Missing social metadata | Both public pages have canonical URL, author, Open Graph and Twitter large-card metadata, image dimensions/alt text, and dedicated 1200×630 JPEG cards. |
+| Large delivery images | The original drawings are preserved outside `public/`. Delivery uses 540px and 1080px WebP variants with `srcset`/`sizes`, and deferred loading ahead of the current scene. Largest served raster: **157,630 bytes**, below the 250 KB generic display-image budget. The asset audit has no findings. |
+| Mobile startup artwork cost | The two initial largest variants total **269,132 bytes**, versus 644,032 previously: approximately **58% less artwork data**. Smaller candidates may be selected depending on viewport and pixel density. This is an asset comparison, not a field LCP or total page-transfer measurement. |
+| Footer duplication | Removed only the standalone HouseOfBros and public wellbeing identity links from the footer navigation. The Foundation credit, author/profile credit, LinkedIn and team-page link remain. |
+| Trail links lacked context | Three real HouseOfBros guardian drawings link to the verified Monster, Divine and Integration trail pages. They open in new tabs to preserve unfinished signup entries. Local lazy-loaded thumbnails total **42,970 bytes**. |
+| Plain factual context for other consumers | Added a small optional `llms.txt` with identity, independence, programme status and primary links. No ranking benefit is claimed. |
 
-## AEO assessment
+## Structured-data and content checks
 
-The site identifies the creator and Foundation, links the public wellbeing identity and LinkedIn, labels the programme as proposed/in development, and states that participation does not offer a date or introduction. The separate creator letter gives the purpose and fictional Seraphina context. The source now contains readable copy and headings rather than requiring client rendering.
+`node scripts/check-discovery.mjs` verifies:
 
-The creator-supplied podcast link is timestamped at 41:04. No transcript was retrieved, and no purported verbatim quote or independently verified endorsement was added. LinkedIn is linked at the supplied URL; login-restricted profile contents were not used for claims.
+- source-level H1, canonical, graph types and the creator's actual identity links;
+- no invented Offer, Course, Review or attached Movie;
+- all five JSON-LD questions and accepted answers exactly match their reader-visible FAQ copy;
+- correct local image references, social metadata, trail destinations and footer-link removal;
+- the served display-image budget.
 
-The bundled media-content heuristic produced **44/100** on a Markdown extraction (`qa/aeo-heuristics.json`). It rewards academic/numbered citations, case studies, credentials, and article structures that this fictional campaign does not aim to provide. This is a limited editorial heuristic, not an AI citation probability, ranking score, or validation of the story's claims. Its useful remaining suggestion is clear factual programme information and accurate entity markup. No fabricated authority signals were added to increase the score. Live answer-engine citation coverage was not measured.
+The FAQ and schema are generated from `content/faq.json`, so they cannot drift independently. The site still describes an independent creative experiment and a proposed journey. Shruti Haasan is not represented as an organiser, endorser, partner or attached cast member. No cohort dates, prices, ratings, credentials or promised relationship outcomes have been invented.
 
-## Motion and mobile checks
+FAQPage markup describes content; it is not a promise of a Google rich result. Google's 2026 documentation states that the FAQ rich-result feature was removed. [Google Search documentation updates](https://developers.google.com/search/updates). The visible-copy matching follows the principle that markup must represent the page's actual content. [General structured data guidelines](https://developers.google.com/search/docs/appearance/structured-data/sd-policies).
 
-- Actual localized deformation of the pencil drawing: wing membranes, flame and its light, bow fragments, a modest stone lift/strain, and ribbon movement. These are restrained illustration effects, not newly drawn character acting or a fully reconstructed intact-to-broken bow sequence.
-- One 960×640 GPU canvas, a target cap of 30 frames/second, at most three cached GPU textures, and only the current supported drawing animates.
-- The DNA paths also change geometry over time, rather than only revealing a fixed stroke.
-- Pause control, reduced-motion preference, hidden-tab suspension, off-story suspension, and a static-image fallback if GPU rendering is unavailable.
-- Desktop and portrait mobile viewport checks, including retained face/flame framing; no horizontal overflow observed. This does not establish real-device p75 frame times or Core Web Vitals.
-- Existing Netlify form delivery code, names, and honeypots are retained. The new motion controls do not submit forms. Backend abuse/rate-limit settings were not independently verified in this SEO review.
+The creator-supplied podcast moment at 41:04 is linked, with no unverified direct quote. The supplied LinkedIn profile and public wellbeing identity are linked. Login-restricted profile contents were not used for claims.
 
-## Verification and limits
+## Performance and interaction
 
-- JavaScript syntax and whitespace checks pass.
-- Local route matrix: 200 responses, one H1 per HTML page, expected public canonicals, and a valid favicon route. Local Python-server headers are not representative of production Netlify headers.
-- XML parsing verifies the sitemap and SVG favicon.
-- Google PageSpeed Insights returned a shared daily quota error. **No Lighthouse performance, accessibility, best-practices or SEO score is claimed.** No CrUX p75 or Search Console indexing data was available.
-- The static site has no package dependency manifest or application dependency tree to run `npm audit` against. No dependency metadata was submitted to npm.
+The FAQ uses native HTML details/summary elements: no extra browser library, FAQ script or animation loop. Trail art is stored locally and lazy-loaded near the form. Existing bounded illustration motion, pause/reduced-motion behavior and form delivery logic are preserved. The GPU texture cache follows the selected responsive image candidate.
 
-## Reproduction
+Static original art remains in `artwork-originals/`. Previously shared `/assets/name.webp` URLs redirect to the new 1080px variants on Netlify. The mobile checks cover the linked guardian cards, collapsed/expanded FAQ, no horizontal overflow, and the existing story; they are viewport checks, not a claim about real-device p75 frame times.
 
-`node scripts/render-story.mjs`
+The site build uses only local Node standard-library scripts; no production package dependency or client framework was added. The image preparation script is an offline authoring utility, not a deploy/runtime dependency.
 
-`node --check public/app.js`
+## Crawl policy and external verification limits
 
-`node --check public/living-art.js`
+Both public pages are included in the sitemap with the actual update date. Robots permits crawling. The privacy notice intentionally remains `noindex` and outside the sitemap. There is no wildcard SPA route that turns missing pages into the homepage.
 
-`node /Users/mosessampaul/.codex/skills/run-iov-web-quality-audit/scripts/route-matrix.mjs https://shruthimatrimony.com / /for-shruti /privacy /sitemap.xml /robots.txt /favicon.svg`
+Google PageSpeed Insights previously returned its shared daily quota error. **No Lighthouse score, CrUX p75 result, Google indexing confirmation, rich-result eligibility or live AI-citation outcome is claimed.** Those are external verification limits rather than unresolved source-code fixes. Search Console/URL Inspection was not connected.
 
-Production verification after deployment returned 200 on all six checked routes. The homepage and creator letter each have one source-level H1 and the expected canonical. HTTPS, HSTS, X-Content-Type-Options, X-Frame-Options, Referrer-Policy and Permissions-Policy were present.
+The prior article-oriented AEO heuristic was a limited baseline, not a campaign success metric. We have not added fake academic references, credentials or keyword repetition to game that score. This release is checked for factual clarity, explicit authorship, provenance links, readable source HTML, and accurate structured data.
 
-Local and production evidence is retained in `docs/qa/`. No visitor or form-submission contents are included.
+## Reproduction and evidence
+
+- `node scripts/build.mjs`
+- `node scripts/check-discovery.mjs`
+- `node --check public/app.js`
+- `node --check public/living-art.js`
+- `node /Users/mosessampaul/.codex/skills/run-iov-web-quality-audit/scripts/audit-assets.mjs .`
+- `node /Users/mosessampaul/.codex/skills/run-iov-web-quality-audit/scripts/route-matrix.mjs https://shruthimatrimony.com / /for-shruti /privacy /sitemap.xml /robots.txt /favicon.svg /llms.txt`
+
+Evidence is retained in `docs/qa/`. Trail source attribution is recorded in `docs/trail-artwork-sources.md`. No visitor details or submission contents are recorded in these files.

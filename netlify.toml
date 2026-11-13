@@ -1,4 +1,5 @@
 [build]
+  command = "node scripts/build.mjs"
   publish = "public"
 
 [[headers]]
@@ -19,3 +20,65 @@
   to = "https://shruthimatrimony.com/:splat"
   status = 301
   force = true
+
+# Preserve previously shared illustration URLs after moving delivery to optimized variants.
+
+[[redirects]]
+  from = "/assets/invitation.webp"
+  to = "/assets/drawings/invitation-1080.webp"
+  status = 301
+
+[[redirects]]
+  from = "/assets/lineage.webp"
+  to = "/assets/drawings/lineage-1080.webp"
+  status = 301
+
+[[redirects]]
+  from = "/assets/fan.webp"
+  to = "/assets/drawings/fan-1080.webp"
+  status = 301
+
+[[redirects]]
+  from = "/assets/work.webp"
+  to = "/assets/drawings/work-1080.webp"
+  status = 301
+
+[[redirects]]
+  from = "/assets/bow.webp"
+  to = "/assets/drawings/bow-1080.webp"
+  status = 301
+
+[[redirects]]
+  from = "/assets/strength.webp"
+  to = "/assets/drawings/strength-1080.webp"
+  status = 301
+
+[[redirects]]
+  from = "/assets/gates.webp"
+  to = "/assets/drawings/gates-1080.webp"
+  status = 301
+
+[[redirects]]
+  from = "/assets/monster.webp"
+  to = "/assets/drawings/monster-1080.webp"
+  status = 301
+
+[[redirects]]
+  from = "/assets/divine.webp"
+  to = "/assets/drawings/divine-1080.webp"
+  status = 301
+
+[[redirects]]
+  from = "/assets/integration.webp"
+  to = "/assets/drawings/integration-1080.webp"
+  status = 301
+
+[[redirects]]
+  from = "/assets/creator.webp"
+  to = "/assets/drawings/creator-1080.webp"
+  status = 301
+
+[[redirects]]
+  from = "/assets/choice.webp"
+  to = "/assets/drawings/choice-1080.webp"
+  status = 301
