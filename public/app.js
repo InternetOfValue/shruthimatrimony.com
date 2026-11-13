@@ -1,6 +1,4 @@
-
 (()=>{
-const root=document.getElementById('pencil-swayamvar');const art={"lineage":"/assets/lineage.webp","work":"/assets/work.webp","invitation":"/assets/invitation.webp","fan":"/assets/fan.webp","bow":"/assets/bow.webp","strength":"/assets/strength.webp","gates":"/assets/gates.webp","monster":"/assets/monster.webp","divine":"/assets/divine.webp","integration":"/assets/integration.webp","creator":"/assets/creator.webp","choice":"/assets/choice.webp"};
 const scenes=[
 {id:'invitation',k:'THE MODERN SWAYAMVAR / 90 DAYS',t:'Do you dare<br>to date<br><em>Shruti Haasan?</em>',p:'Three trails. Ninety days. Who could you become?',a:'I dare. Show me the trial. →',im:'invitation',cap:'BECOME WORTH / THE 90-DAY CHALLENGE',n:'Independent fiction. No affiliation, dates or introductions offered.',alt:'Seraphina in red pencil, with one dragon wing and a knowing expression'},
 {id:'lineage',k:'SARIKA × KAMAL HAASAN',t:'Two legacies.<br><em>One thread.</em>',p:'Scroll through the inheritance.',a:'Follow the thread ↓',im:'lineage',cap:'SCROLL / SWIPE UP OVER THE DRAWING',n:'Symbolic family lineage. Her individuality is her own.',alt:'Sarika and Kamal Haasan become crimson strands leading to Shruti Haasan'},
@@ -15,41 +13,58 @@ const scenes=[
 {id:'creator',k:'MOSES / THE HUMAN & THE DRAGONESS',t:'I’m building<br><em>my answer.</em>',p:'The Internet of Value. HouseOfBros. Seraphina.',a:'And if I finish? →',im:'creator',cap:'MOSES SAM PAUL JOHNRAJ',n:'',alt:'Moses, bald with his salt-and-pepper beard, at his notebook and dragoness maquette'},
 {id:'choice',k:'BECOME WORTH / YOUR MODERN SWAYAMVAR',t:'Become someone<br><em>worth dating.</em>',p:'Strength. Care. Consistency. Show what you can become.',a:'Sign up for Become Worth →',im:'choice',cap:'90 DAYS / MONSTER / DIVINE / INTEGRATION',n:'Build a life a woman you admire could admire too. Her choice remains hers.',alt:'A confident frontal portrait of Seraphina framed by her wings, directly facing the viewer'}
 ];
-let index=0,busy=false,startTouch=null,dnaProgress=0,frame=0,signupStep=-1;
-const button=root.querySelector('#ps-next'),picture=root.querySelector('#ps-art'),dna=root.querySelector('#ps-dna'),canvas=root.querySelector('#ps-threads'),context=canvas.getContext('2d'),reduce=matchMedia('(prefers-reduced-motion: reduce)');
-const saved=window.openai?.widgetState?.privateContent;if(Number.isInteger(saved?.scene)&&saved.scene>=0&&saved.scene<12)index=saved.scene;
-const progress=root.querySelector('.ps-progress');scenes.forEach(()=>progress.appendChild(document.createElement('span')));
-const signupPanel=root.querySelector('#ps-signup-panel'),signupForm=root.querySelector('#ps-signup-form'),focusField=root.querySelector('#ps-focus');focusField.disabled=true;
-function resetSignup(){signupStep=-1;delete root.dataset.signup;signupPanel.hidden=true;root.querySelector('article').hidden=false;root.querySelector('.ps-stage').hidden=false;signupForm.reset();signupForm.hidden=false;focusField.disabled=true;focusField.required=false;root.querySelector('#ps-signup-result').hidden=true;root.querySelector('.ps-signup-intro').hidden=false;}
-function showSignup(step){signupStep=step;root.dataset.signup=['contact','focus','done'][step];root.querySelector('article').hidden=true;root.querySelector('.ps-stage').hidden=true;signupPanel.hidden=false;root.querySelector('#ps-contact-step').hidden=step!==0;root.querySelector('#ps-focus-step').hidden=step!==1;focusField.disabled=step!==1;focusField.required=step===1;root.querySelector('#ps-form-description').textContent=step===1?'All three trails. One 90-day journey. What would you like to change?':'Build the strength, care and consistency a great partner can admire.';button.textContent=step===0?'Continue →':step===1?'Sign up for Become Worth →':'Return to the story →';root.querySelector('#ps-note').textContent='Your details are used only to contact you about Become Worth. ';const privacy=document.createElement('a');privacy.href='/privacy.html';privacy.textContent='Data use';root.querySelector('#ps-note').appendChild(privacy);root.querySelector('#ps-hint').textContent=step===2?'INTEREST REGISTERED':'STEP '+(step+1)+' / 2 · ESC TO REVISIT';if(step===2){signupForm.hidden=true;root.querySelector('.ps-signup-intro').hidden=true;root.querySelector('#ps-signup-result').hidden=false;signupForm.reset();}else requestAnimationFrame(()=>root.querySelector(step===0?'#ps-name':'#ps-focus').focus({preventScroll:true}));}
-async function advanceSignup(){
- if(busy)return;
- if(signupStep===2){resetSignup();go(0);return;}
- if(!signupForm.reportValidity())return;
- if(signupStep===0){busy=true;button.disabled=true;showSignup(1);setTimeout(()=>{busy=false;button.disabled=false},450);return;}
- busy=true;button.disabled=true;button.textContent='Registering your interest…';
+
+const story=document.querySelector('#story');
+const reduced=matchMedia('(prefers-reduced-motion: reduce)');
+const count=scenes.length;
+// Every scene is in the document. Native scrolling owns navigation and momentum.
+story.innerHTML=scenes.map((s,i)=>`<section class="scene ${s.id==='lineage'?'lineage':''}" id="${s.id}" aria-labelledby="title-${s.id}">
+ <div class="scene-frame">
+  <div class="scene-copy"><span class="eyebrow">${s.k}</span><${i===0?'h1':'h2'} id="title-${s.id}">${s.t}</${i===0?'h1':'h2'}><p class="scene-description">${s.p}</p>
+  ${i===count-1?'<a class="signup-link" href="#signup">Sign up for Become Worth <span aria-hidden="true">↗</span></a>':''}
+  ${s.n?`<p class="scene-note">${s.n}</p>`:''}</div>
+  <figure class="scene-art"><img src="/assets/${s.im}.webp" alt="${s.alt}" ${i<2?'fetchpriority="high"':'loading="lazy"'} decoding="async" width="1440" height="960"><figcaption>${s.id==='lineage'?'TWO LEGACIES / HER OWN FIRE':s.cap}</figcaption></figure>
+  <div class="scene-bottom"><span>${String(i+1).padStart(2,'0')} / 12</span><span>${i===0?'SCROLL TO BEGIN ↓':i===count-1?'YOUR NEXT CHAPTER BEGINS BELOW ↓':'THE STORY CONTINUES ↓'}</span></div>
+ </div></section>`).join('');
+const lineage=document.querySelector('#lineage');
+lineage.querySelector('.scene-copy').innerHTML=`<div class="lineage-beats">
+ <div class="lineage-beat"><span class="eyebrow">SARIKA × KAMAL HAASAN</span><h2 id="title-lineage">Two legacies.<br><em>One thread.</em></h2><p class="scene-description">An inheritance. Not a script.</p></div>
+ <div class="lineage-beat"><span class="eyebrow">THE THREADS INTERTWINE</span><h2>Their DNA.<br><em>Her own fire.</em></h2><p class="scene-description">The story is hers to write.</p></div>
+ <div class="lineage-beat"><span class="eyebrow">SHRUTI HAASAN</span><h2>An artist.<br><em>Her own original.</em></h2><p class="scene-description">An individual beyond her lineage.</p></div>
+ </div><p class="scene-note">Symbolic family lineage. Her individuality is her own.</p>`;
+// Keep inactive beat copy out of the accessibility tree as well as off screen.
+const beats=[...lineage.querySelectorAll('.lineage-beat')];
+let activeBeat=-1,queued=false;
+const clamp=x=>Math.max(0,Math.min(1,x));
+function paint(){
+ queued=false;
+ const rect=lineage.getBoundingClientRect();
+ const travel=Math.max(1,lineage.offsetHeight-innerHeight);
+ const progress=reduced.matches?1:clamp(-rect.top/travel);
+ lineage.style.setProperty('--lineage-progress',progress.toFixed(4));
+ lineage.style.setProperty('--lineage-solid',(48+progress*54).toFixed(2)+'%');
+ lineage.style.setProperty('--lineage-end',(62+progress*50).toFixed(2)+'%');
+ lineage.style.setProperty('--lineage-drift',(-progress*18).toFixed(2)+'px');
+ const beat=reduced.matches?2:progress<.30?0:progress<.68?1:2;
+ if(beat!==activeBeat){beats.forEach((el,i)=>{el.classList.toggle('active',i===beat);el.setAttribute('aria-hidden',String(i!==beat))});activeBeat=beat;}
+ const range=document.documentElement.scrollHeight-innerHeight;
+ document.querySelector('.reading-progress span').style.transform=`scaleX(${clamp(scrollY/Math.max(1,range))})`;
+}
+function queue(){if(!queued){queued=true;requestAnimationFrame(paint)}}
+addEventListener('scroll',queue,{passive:true});addEventListener('resize',queue);reduced.addEventListener('change',queue);paint();
+const form=document.querySelector('#ps-signup-form');
+const button=document.querySelector('#ps-submit');
+const status=document.querySelector('#ps-form-status');
+form.addEventListener('submit',async event=>{
+ event.preventDefault();if(button.disabled||!form.reportValidity())return;
+ button.disabled=true;button.textContent='Registering your interest…';
  try{
-  const data=new FormData(signupForm);data.set('form-name','become-worth');
+  const data=new FormData(form);data.set('form-name','become-worth');
   const response=await fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(data).toString()});
   if(!response.ok)throw new Error('Submission failed');
-  showSignup(2);button.focus({preventScroll:true});
- }catch(error){root.querySelector('#ps-note').textContent='We couldn’t send your signup. Please try again. Your entries are still here.';button.textContent='Try signing up again →';}
- finally{busy=false;button.disabled=false;if(signupStep===2)button.focus({preventScroll:true});}
-}
-function backSignup(){if(signupStep===1){showSignup(0);return;}resetSignup();render();button.focus({preventScroll:true});}
-signupForm.addEventListener('submit',e=>{e.preventDefault();advanceSignup()});signupForm.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.tagName!=='TEXTAREA'){e.preventDefault();advanceSignup()}});
-root.querySelectorAll('.ps-parent,.ps-child').forEach(p=>p.src=art.lineage);
-function persist(){window.openai?.setWidgetState?.({modelContent:{scene:scenes[index].id},privateContent:{scene:index}})?.catch(()=>{});}
-function setText(k,t,p){root.querySelector('#ps-kicker').textContent=k;root.querySelector('#ps-title').innerHTML=t;root.querySelector('#ps-copy').textContent=p;}
-function dimensions(){const r=dna.getBoundingClientRect();if(!r.width||!r.height)return;const ratio=Math.min(devicePixelRatio||1,2);dna.style.setProperty('--dna-h',r.height+'px');canvas.width=Math.round(r.width*ratio);canvas.height=Math.round(r.height*ratio);context.setTransform(ratio,0,0,ratio,0,0);paintDNA();}
-function paintDNA(){if(scenes[index].id!=='lineage')return;const w=dna.clientWidth,h=dna.clientHeight,p=reduce.matches?1:dnaProgress;context.clearRect(0,0,w,h);const reach=Math.min(1,.2+p*1.05);for(let strand=0;strand<2;strand++){context.beginPath();context.lineWidth=strand?1.5:2.1;context.strokeStyle=strand?'rgba(94,53,49,.6)':'rgba(151,43,48,.82)';for(let i=0;i<=180*reach;i++){const t=i/180,phase=t*Math.PI*3.5+strand*Math.PI;const x=w*.5+Math.sin(phase)*w*(.2-.07*t),y=h*(.35-p*.14+t*(.5-p*.25));if(i===0)context.moveTo(x,y);else context.lineTo(x,y);}context.stroke();}const parentMove=reduce.matches?0:p;root.querySelector('.ps-sarika').style.transform='translate('+(-parentMove*w*.035)+'px,'+(-parentMove*h*.19)+'px)';root.querySelector('.ps-kamal').style.transform='translate('+(parentMove*w*.035)+'px,'+(-parentMove*h*.19)+'px)';root.querySelectorAll('.ps-parent').forEach(el=>el.style.opacity=String(Math.max(0,1-parentMove*1.2)));const child=root.querySelector('.ps-child');child.style.opacity=String(Math.max(0,Math.min(1,(p-.28)/.48)));child.style.transform='translateY('+((1-p)*h*.11-p*h*.1)+'px)';root.querySelector('.ps-parent-label').style.opacity=String(1-p*.85);root.querySelector('.ps-child-label').style.opacity=String(Math.max(0,(p-.55)/.45));if(p<.3)setText('SARIKA × KAMAL HAASAN','Two legacies.<br><em>One thread.</em>','Scroll through the inheritance.');else if(p<.78)setText('THE THREADS INTERTWINE','Their DNA.<br><em>Her own fire.</em>','An inheritance. Not a script.');else setText('SHRUTI HAASAN','An artist.<br><em>Her own original.</em>','An individual beyond her lineage.');button.textContent=p>.96?'And what do I bring? →':'Follow the thread ↓';root.querySelector('#ps-caption').textContent=p>.96?'HER OWN FIRE / HER OWN CHOICE':'SCROLL / SWIPE UP OVER THE DRAWING';root.querySelector('#ps-hint').textContent=p>.96?'THE THREAD IS COMPLETE':'SCROLL THE DRAWING · '+Math.round(p*100)+'%';}
-function readDNA(){dnaProgress=Math.max(0,Math.min(1,dna.scrollTop/Math.max(1,dna.scrollHeight-dna.clientHeight)));cancelAnimationFrame(frame);frame=requestAnimationFrame(paintDNA);}
-dna.addEventListener('scroll',readDNA,{passive:true});new ResizeObserver(dimensions).observe(dna);
-function render(){const s=scenes[index];root.dataset.scene=s.id;setText(s.k,s.t,s.p);picture.src=art[s.im];picture.alt=s.alt;picture.hidden=s.id==='lineage';dna.hidden=s.id!=='lineage';root.querySelector('#ps-caption').textContent=s.cap;root.querySelector('#ps-note').textContent=s.n;button.textContent=s.a;root.querySelector('#ps-count').textContent=String(index+1).padStart(2,'0')+' / 12';root.querySelector('#ps-hint').textContent=index?'← KEY / SWIPE RIGHT TO REVISIT':'ONE SCENE. ONE NEXT STEP.';[...progress.children].forEach((el,i)=>el.className=i<index?'past':i===index?'present':'');if(s.id==='lineage'){dna.scrollTop=0;dnaProgress=0;requestAnimationFrame(dimensions);}else{root.style.setProperty('--art-x','0px');root.style.setProperty('--art-y','0px');}}
-function go(n){if(busy||n<0||n>=12)return;const restoreFocus=document.activeElement===button;busy=true;button.disabled=true;resetSignup();index=n;render();persist();setTimeout(()=>{busy=false;button.disabled=false;if(restoreFocus)button.focus({preventScroll:true})},450);}
-button.addEventListener('click',()=>{if(busy)return;if(index===11){if(signupStep<0)showSignup(0);else advanceSignup();return;}if(index===1&&!reduce.matches&&dnaProgress<.96){const restoreFocus=document.activeElement===button;busy=true;button.disabled=true;const max=dna.scrollHeight-dna.clientHeight;dna.scrollTo({top:Math.min(max,dna.scrollTop+max*.55),behavior:'smooth'});setTimeout(()=>{busy=false;button.disabled=false;if(restoreFocus)button.focus({preventScroll:true})},650);return;}go(index+1);});
-root.addEventListener('keydown',e=>{if(signupStep>=0){if(e.key==='Escape'){e.preventDefault();backSignup()}return;}if(e.key==='ArrowLeft'){e.preventDefault();go(index-1);}else if(index===1&&['ArrowDown','ArrowUp','PageDown','PageUp','Home','End'].includes(e.key)){e.preventDefault();const max=dna.scrollHeight-dna.clientHeight;if(e.key==='Home')dna.scrollTop=0;else if(e.key==='End')dna.scrollTop=max;else dna.scrollTop+=({'ArrowDown':100,'ArrowUp':-100,'PageDown':dna.clientHeight,'PageUp':-dna.clientHeight})[e.key];}});
-root.addEventListener('touchstart',e=>{startTouch={x:e.changedTouches[0].clientX,y:e.changedTouches[0].clientY}},{passive:true});root.addEventListener('touchend',e=>{if(startTouch){const d=e.changedTouches[0];if(d.clientX-startTouch.x>80&&Math.abs(d.clientY-startTouch.y)<45){if(signupStep>=0)backSignup();else go(index-1);}}startTouch=null},{passive:true});
-root.addEventListener('pointermove',e=>{if(reduce.matches||e.pointerType==='touch'||index===1)return;const r=root.getBoundingClientRect();root.style.setProperty('--art-x',((e.clientX-r.left)/r.width-.5)*7+'px');root.style.setProperty('--art-y',((e.clientY-r.top)/r.height-.5)*5+'px');});root.addEventListener('pointerleave',()=>{root.style.setProperty('--art-x','0px');root.style.setProperty('--art-y','0px');});
-window.addEventListener('openai:set_globals',e=>{const n=e.detail?.globals?.widgetState?.privateContent?.scene;if(Number.isInteger(n)&&n>=0&&n<12){resetSignup();index=n;render();}});reduce.addEventListener('change',()=>{if(index===1)paintDNA()});render();
+  form.hidden=true;document.querySelector('.ps-signup-intro').hidden=true;
+  const result=document.querySelector('#ps-signup-result');result.hidden=false;result.tabIndex=-1;result.focus({preventScroll:true});form.reset();
+ }catch(error){status.textContent='We couldn’t send your signup. Please try again. Your entries are still here.';button.textContent='Try signing up again →';}
+ finally{button.disabled=false;}
+});
 })();

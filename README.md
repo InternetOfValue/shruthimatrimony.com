@@ -5,3 +5,5 @@ Independent creative story and proposed 90-day programme. Static HTML, CSS and J
 Deploy `public` from `main` with no build command. Netlify must have form detection enabled. The `become-worth` form receives name, email, optional phone, focus and intention. No signup details are committed to this repository.
 
 Domain: shruthimatrimony.com. Keep the hosting account on its existing free tier with overage billing disabled.
+
+The twelve scenes use native document scrolling. The lineage section is sticky for a short, scroll-linked reveal; it has no nested scrolling or wheel interception. Reduced-motion users see the complete artwork without the pinned reveal. The only story CTA links to the inline interest form.
