@@ -49,4 +49,6 @@ The bundled media-content heuristic produced **44/100** on a Markdown extraction
 
 `node /Users/mosessampaul/.codex/skills/run-iov-web-quality-audit/scripts/route-matrix.mjs https://shruthimatrimony.com / /for-shruti /privacy /sitemap.xml /robots.txt /favicon.svg`
 
+Production verification after deployment returned 200 on all six checked routes. The homepage and creator letter each have one source-level H1 and the expected canonical. HTTPS, HSTS, X-Content-Type-Options, X-Frame-Options, Referrer-Policy and Permissions-Policy were present.
+
 Local and production evidence is retained in `docs/qa/`. No visitor or form-submission contents are included.

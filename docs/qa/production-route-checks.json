@@ -1,0 +1,116 @@
+[
+  {
+    "route": "/",
+    "status": 200,
+    "location": null,
+    "canonical": "https://shruthimatrimony.com/",
+    "h1Count": 1,
+    "title": "Shruthi Matrimony — Become Worth | A Modern Swayamvar",
+    "bytes": 16951,
+    "headers": {
+      "content-security-policy": null,
+      "content-security-policy-report-only": null,
+      "permissions-policy": "camera=(), microphone=(), geolocation=()",
+      "referrer-policy": "strict-origin-when-cross-origin",
+      "strict-transport-security": "max-age=31536000",
+      "x-content-type-options": "nosniff",
+      "x-frame-options": "SAMEORIGIN",
+      "x-powered-by": null
+    }
+  },
+  {
+    "route": "/for-shruti",
+    "status": 200,
+    "location": null,
+    "canonical": "https://shruthimatrimony.com/for-shruti",
+    "h1Count": 1,
+    "title": "A note to Shruti &amp; her team — Shruthi Matrimony",
+    "bytes": 6516,
+    "headers": {
+      "content-security-policy": null,
+      "content-security-policy-report-only": null,
+      "permissions-policy": "camera=(), microphone=(), geolocation=()",
+      "referrer-policy": "strict-origin-when-cross-origin",
+      "strict-transport-security": "max-age=31536000",
+      "x-content-type-options": "nosniff",
+      "x-frame-options": "SAMEORIGIN",
+      "x-powered-by": null
+    }
+  },
+  {
+    "route": "/privacy",
+    "status": 200,
+    "location": null,
+    "canonical": "",
+    "h1Count": 1,
+    "title": "Data use — Become Worth",
+    "bytes": 1463,
+    "headers": {
+      "content-security-policy": null,
+      "content-security-policy-report-only": null,
+      "permissions-policy": "camera=(), microphone=(), geolocation=()",
+      "referrer-policy": "strict-origin-when-cross-origin",
+      "strict-transport-security": "max-age=31536000",
+      "x-content-type-options": "nosniff",
+      "x-frame-options": "SAMEORIGIN",
+      "x-powered-by": null
+    }
+  },
+  {
+    "route": "/sitemap.xml",
+    "status": 200,
+    "location": null,
+    "canonical": "",
+    "h1Count": 0,
+    "title": "",
+    "bytes": 0,
+    "headers": {
+      "content-security-policy": null,
+      "content-security-policy-report-only": null,
+      "permissions-policy": "camera=(), microphone=(), geolocation=()",
+      "referrer-policy": "strict-origin-when-cross-origin",
+      "strict-transport-security": "max-age=31536000",
+      "x-content-type-options": "nosniff",
+      "x-frame-options": "SAMEORIGIN",
+      "x-powered-by": null
+    }
+  },
+  {
+    "route": "/robots.txt",
+    "status": 200,
+    "location": null,
+    "canonical": "",
+    "h1Count": 0,
+    "title": "",
+    "bytes": 0,
+    "headers": {
+      "content-security-policy": null,
+      "content-security-policy-report-only": null,
+      "permissions-policy": "camera=(), microphone=(), geolocation=()",
+      "referrer-policy": "strict-origin-when-cross-origin",
+      "strict-transport-security": "max-age=31536000",
+      "x-content-type-options": "nosniff",
+      "x-frame-options": "SAMEORIGIN",
+      "x-powered-by": null
+    }
+  },
+  {
+    "route": "/favicon.svg",
+    "status": 200,
+    "location": null,
+    "canonical": "",
+    "h1Count": 0,
+    "title": "",
+    "bytes": 0,
+    "headers": {
+      "content-security-policy": null,
+      "content-security-policy-report-only": null,
+      "permissions-policy": "camera=(), microphone=(), geolocation=()",
+      "referrer-policy": "strict-origin-when-cross-origin",
+      "strict-transport-security": "max-age=31536000",
+      "x-content-type-options": "nosniff",
+      "x-frame-options": "SAMEORIGIN",
+      "x-powered-by": null
+    }
+  }
+]
