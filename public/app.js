@@ -14,61 +14,87 @@ const scenes=[
 {id:'choice',k:'BECOME WORTH / YOUR MODERN SWAYAMVAR',t:'Become someone<br><em>worth dating.</em>',p:'Strength. Care. Consistency. Show what you can become.',a:'Sign up for Become Worth →',im:'choice',cap:'90 DAYS / MONSTER / DIVINE / INTEGRATION',n:'Build a life a woman you admire could admire too. Her choice remains hers.',alt:'A confident frontal portrait of Seraphina framed by her wings, directly facing the viewer'}
 ];
 
+
+const links={iov:'https://theinternetofvalue.org/',bros:'https://houseofbros.theinternetofvalue.org/',identity:'https://theinternetofvalue.org/wellbeing-identity/people/moses-sam-paul-johnraj'};
 const story=document.querySelector('#story');
 const reduced=matchMedia('(prefers-reduced-motion: reduce)');
-const count=scenes.length;
-// Every scene is in the document. Native scrolling owns navigation and momentum.
-story.innerHTML=scenes.map((s,i)=>`<section class="scene ${s.id==='lineage'?'lineage':''}" id="${s.id}" aria-labelledby="title-${s.id}">
+scenes.find(s=>s.id==='creator').p=`<a href="${links.iov}">The Internet of Value</a>. <a href="${links.bros}">HouseOfBros</a>. Seraphina.`;
+scenes.find(s=>s.id==='creator').n=`<a class="identity-link" href="${links.identity}">Explore my public wellbeing identity ↗</a>`;
+scenes.find(s=>s.id==='gates').n=`A proposed 90-day programme, introduced through <a href="${links.bros}">HouseOfBros</a>.`;
+const modes=['rise','weave','descend','carve','sweep','float','open','reflect','kindle','balance','write','unfold'];
+story.innerHTML='<div class="cinema-stage">'+scenes.map((s,i)=>`<section class="scene" id="${s.id}" data-motion="${modes[i]}" aria-labelledby="title-${s.id}">
  <div class="scene-frame">
-  <div class="scene-copy"><span class="eyebrow">${s.k}</span><${i===0?'h1':'h2'} id="title-${s.id}">${s.t}</${i===0?'h1':'h2'}><p class="scene-description">${s.p}</p>
-  ${i===count-1?'<a class="signup-link" href="#signup">Sign up for Become Worth <span aria-hidden="true">↗</span></a>':''}
-  ${s.n?`<p class="scene-note">${s.n}</p>`:''}</div>
-  <figure class="scene-art"><img src="/assets/${s.im}.webp" alt="${s.alt}" ${i<2?'fetchpriority="high"':'loading="lazy"'} decoding="async" width="1440" height="960"><figcaption>${s.id==='lineage'?'TWO LEGACIES / HER OWN FIRE':s.cap}</figcaption></figure>
-  ${i===0?'<p class="scroll-invitation">Scroll to begin <span aria-hidden="true">↓</span></p>':''}
- </div></section>`).join('');
-const revealTargets=[...document.querySelectorAll('.scene,.signup')];
-// Native page scroll remains in control; the observer only reveals arriving content.
-const observer=new IntersectionObserver(entries=>{
- for(const entry of entries){
-  entry.target.classList.toggle('is-visible',entry.isIntersecting);
- }
-},{threshold:.12,rootMargin:'0px 0px -8% 0px'});
-revealTargets.forEach(el=>observer.observe(el));
-revealTargets[0].classList.add('is-visible');
-document.documentElement.classList.add('motion-ready');
+ <div class="scene-copy"><span class="eyebrow">${s.k}</span><${i===0?'h1':'h2'} id="title-${s.id}">${s.t}</${i===0?'h1':'h2'}><p class="scene-description">${s.p}</p>
+ ${i===scenes.length-1?'<a class="signup-link" href="#signup">Sign up for Become Worth <span aria-hidden="true">↗</span></a>':''}
+ ${s.n?`<p class="scene-note">${s.n}</p>`:''}</div>
+ <figure class="scene-art"><img src="/assets/${s.im}.webp" alt="${s.alt}" ${i===0?'fetchpriority="high"':'fetchpriority="low"'} decoding="async" width="1440" height="960">
+ ${i===1?'<svg class="dna-trace" viewBox="0 0 200 340" aria-hidden="true"><path pathLength="1" d="M30 0C220 65-20 105 170 170S-20 275 170 340"/><path pathLength="1" d="M170 0C-20 65 220 105 30 170S220 275 30 340"/></svg><span class="lineage-equation" aria-hidden="true"><span>Sarika</span><b>×</b><span>Kamal Haasan</span><b>=</b><strong>Shruti Haasan</strong></span>':''}
+ <figcaption>${i===1?'TWO LEGACIES / HER OWN FIRE':s.cap}</figcaption></figure>
+ ${i===0?'<p class="scroll-invitation">Swipe up to begin <span aria-hidden="true">↓</span></p>':''}
+ </div></section>`).join('')+'</div>';
+const frames=[...story.querySelectorAll('.scene')];
 const lineage=document.querySelector('#lineage');
-lineage.querySelector('.scene-copy').innerHTML=`<div class="lineage-beats">
- <div class="lineage-beat"><span class="eyebrow">SARIKA × KAMAL HAASAN</span><h2 id="title-lineage">Two legacies.<br><em>One thread.</em></h2><p class="scene-description">An inheritance. Not a script.</p></div>
- <div class="lineage-beat"><span class="eyebrow">THE THREADS INTERTWINE</span><h2>Their DNA.<br><em>Her own fire.</em></h2><p class="scene-description">The story is hers to write.</p></div>
- <div class="lineage-beat"><span class="eyebrow">SHRUTI HAASAN</span><h2>An artist.<br><em>Her own original.</em></h2><p class="scene-description">An individual beyond her lineage.</p></div>
- </div><p class="scene-note">Symbolic family lineage. Her individuality is her own.</p>`;
-// Keep inactive beat copy out of the accessibility tree as well as off screen.
-const beats=[...lineage.querySelectorAll('.lineage-beat')];
-let activeBeat=-1,queued=false;
+const durations=scenes.map(s=>s.id==='lineage'?1.65:1);
+const starts=[];let units=0;for(const duration of durations){starts.push(units);units+=duration;}
 const clamp=x=>Math.max(0,Math.min(1,x));
+const ease=x=>{x=clamp(x);return x*x*(3-2*x)};
+let queued=false,lastActive=-1;
+function size(){
+ const h=document.documentElement.clientHeight;
+ story.style.setProperty('--cinema-height',h+'px');
+ story.style.height=reduced.matches?'auto':Math.round((units+1)*h)+'px';
+ document.documentElement.classList.toggle('cinematic-ready',!reduced.matches);
+ queue();
+}
 function paint(){
  queued=false;
- const rect=lineage.getBoundingClientRect();
- const travel=Math.max(1,lineage.offsetHeight-innerHeight);
- const progress=reduced.matches?1:clamp(-rect.top/travel);
- lineage.style.setProperty('--lineage-progress',progress.toFixed(4));
- lineage.style.setProperty('--lineage-solid',(48+progress*54).toFixed(2)+'%');
- lineage.style.setProperty('--lineage-end',(62+progress*50).toFixed(2)+'%');
- lineage.style.setProperty('--lineage-drift',(-progress*18).toFixed(2)+'px');
- const beat=reduced.matches?2:progress<.30?0:progress<.68?1:2;
- if(beat!==activeBeat){beats.forEach((el,i)=>{el.classList.toggle('active',i===beat);el.setAttribute('aria-hidden',String(i!==beat))});activeBeat=beat;}
- for(const scene of revealTargets){
-  if(scene===lineage)continue;
-  const r=scene.getBoundingClientRect();
-  if(r.bottom<0||r.top>innerHeight)continue;
-  const position=clamp((innerHeight-r.top)/(innerHeight+r.height));
-  scene.style.setProperty('--scene-drift',reduced.matches?'0px':((position-.5)*-36).toFixed(2)+'px');
+ const h=document.documentElement.clientHeight;
+ const top=story.getBoundingClientRect().top+scrollY;
+ const cursor=Math.max(0,(scrollY-top)/h);
+ let active=0;while(active<frames.length-1&&cursor>=starts[active+1])active++;
+ const local=clamp((cursor-starts[active])/durations[active]);
+ const mix=active===frames.length-1?0:ease((local-.60)/.40);
+ frames.forEach((frame,i)=>{
+  const incoming=i===active+1;
+  const opacity=reduced.matches?1:i===active?1-mix:incoming?mix:0;
+  frame.style.opacity=opacity;
+  const phase=clamp((cursor-starts[i])/durations[i]);
+  const entrance=incoming?(1-mix):0;
+  const exit=i===active?mix:0;
+  frame.style.setProperty('--scene-y',((entrance-exit)*20).toFixed(2)+'px');
+  frame.style.setProperty('--text-y',((entrance-exit)*12).toFixed(2)+'px');
+  const mode=frame.dataset.motion;
+  const zoom=mode==='carve'?1.12-phase*.08:mode==='open'?1.14-phase*.12:1.065-phase*.05;
+  frame.style.setProperty('--camera-zoom',zoom.toFixed(4));
+  const direction=i%2?1:-1;
+  const pan=mode==='sweep'?44:mode==='write'?28:20;
+  frame.style.setProperty('--camera-x',((phase-.5)*direction*pan).toFixed(2)+'px');
+  const vertical=mode==='float'?Math.sin(phase*Math.PI)*-16:mode==='descend'?(phase-.5)*35:(.5-phase)*20;
+  frame.style.setProperty('--camera-y',vertical.toFixed(2)+'px');
+  frame.style.setProperty('--camera-turn',((phase-.5)*direction*.6).toFixed(3)+'deg');
+  const isActive=reduced.matches||i===(mix>.5?active+1:active);
+  frame.inert=!isActive;frame.setAttribute('aria-hidden',String(!isActive));
+  frame.classList.toggle('is-active',isActive);
+ });
+ const lp=reduced.matches?1:clamp((cursor-starts[1])/durations[1]);
+ lineage.style.setProperty('--lineage-solid',(43+lp*62).toFixed(2)+'%');
+ lineage.style.setProperty('--lineage-end',(57+lp*62).toFixed(2)+'%');
+ lineage.style.setProperty('--thread-draw',(1-ease(lp/.75)).toFixed(3));
+ lineage.style.setProperty('--daughter-opacity',ease((lp-.45)/.3));
+ const beat=lp<.26?0:lp<.57?1:2;
+ if(beat!==lastActive){
+  const titles=['Two legacies.<br><em>One thread.</em>','Their DNA.<br><em>Her own fire.</em>','An artist.<br><em>Her own original.</em>'];
+  lineage.querySelector('h2').innerHTML=titles[beat];
+  lineage.querySelector('.scene-description').textContent=['An inheritance. Not a script.','The story is hers to write.','An individual beyond her lineage.'][beat];lastActive=beat;
  }
  const range=document.documentElement.scrollHeight-innerHeight;
  document.querySelector('.reading-progress span').style.transform=`scaleX(${clamp(scrollY/Math.max(1,range))})`;
 }
 function queue(){if(!queued){queued=true;requestAnimationFrame(paint)}}
-addEventListener('scroll',queue,{passive:true});addEventListener('resize',queue);reduced.addEventListener('change',queue);paint();
+addEventListener('scroll',queue,{passive:true});addEventListener('resize',size);reduced.addEventListener('change',size);
+// Story anchors map to their scroll positions; wheel, touch, and keyboard scrolling stay native.
+for(const anchor of document.querySelectorAll('a[href="#invitation"]'))anchor.addEventListener('click',event=>{event.preventDefault();scrollTo({top:0,behavior:reduced.matches?'instant':'smooth'})});
+size();paint();
 const form=document.querySelector('#ps-signup-form');
 const button=document.querySelector('#ps-submit');
 const status=document.querySelector('#ps-form-status');
