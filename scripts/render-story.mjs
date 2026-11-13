@@ -1,0 +1,10 @@
+import fs from 'node:fs';
+import vm from 'node:vm';
+const code=fs.readFileSync('public/app.js','utf8');
+const story={innerHTML:''};
+const prefix=code.slice(0,code.indexOf('const frames='))+'})();';
+vm.runInNewContext(prefix,{document:{querySelector:()=>story},matchMedia:()=>({matches:false})});
+let html=fs.readFileSync('public/index.html','utf8');
+html=html.replace(/(<main id="story"[^>]*>)[\s\S]*?(<\/main>)/,'$1'+story.innerHTML+'$2');
+fs.writeFileSync('public/index.html',html.split('\n').map(line=>line.trimEnd()).join('\n'));
+console.log('Rendered '+(story.innerHTML.match(/class="scene"/g)||[]).length+' story scenes into HTML.');

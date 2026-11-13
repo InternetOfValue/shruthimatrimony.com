@@ -21,18 +21,23 @@ const reduced=matchMedia('(prefers-reduced-motion: reduce)');
 scenes.find(s=>s.id==='creator').p=`<a href="${links.iov}">The Internet of Value</a>. <a href="${links.bros}">HouseOfBros</a>. Seraphina.`;
 scenes.find(s=>s.id==='creator').n=`<a class="identity-link" href="${links.identity}">Explore my public wellbeing identity ↗</a>`;
 scenes.find(s=>s.id==='gates').n=`A proposed 90-day programme, introduced through <a href="${links.bros}">HouseOfBros</a>.`;
+scenes[0].n+=' <a class="podcast-source" href="https://youtu.be/CAw_FyHTFk0?t=2464">The podcast moment · 41:04 ↗</a>';
 const modes=['rise','weave','descend','carve','sweep','float','open','reflect','kindle','balance','write','unfold'];
 story.innerHTML='<div class="cinema-stage">'+scenes.map((s,i)=>`<section class="scene" id="${s.id}" data-motion="${modes[i]}" aria-labelledby="title-${s.id}">
  <div class="scene-frame">
  <div class="scene-copy"><span class="eyebrow">${s.k}</span><${i===0?'h1':'h2'} id="title-${s.id}">${s.t}</${i===0?'h1':'h2'}><p class="scene-description">${s.p}</p>
  ${i===scenes.length-1?'<a class="signup-link" href="#signup">Sign up for Become Worth <span aria-hidden="true">↗</span></a>':''}
  ${s.n?`<p class="scene-note">${s.n}</p>`:''}</div>
- <figure class="scene-art"><img src="/assets/${s.im}.webp" alt="${s.alt}" ${i===0?'fetchpriority="high"':'fetchpriority="low"'} decoding="async" width="1440" height="960">
- ${i===1?'<svg class="dna-trace" viewBox="0 0 200 340" aria-hidden="true"><path pathLength="1" d="M30 0C220 65-20 105 170 170S-20 275 170 340"/><path pathLength="1" d="M170 0C-20 65 220 105 30 170S220 275 30 340"/></svg><span class="lineage-equation" aria-hidden="true"><span>Sarika</span><b>×</b><span>Kamal Haasan</span><b>=</b><strong>Shruti Haasan</strong></span>':''}
- <figcaption>${i===1?'TWO LEGACIES / HER OWN FIRE':s.cap}</figcaption></figure>
+ <figure class="scene-art"><img src="${i<2?'/assets/'+s.im+'.webp':'/assets/paper.svg'}" ${i>1?'data-src="/assets/'+s.im+'.webp"':''} alt="${s.alt}" ${i===0?'fetchpriority="high"':'fetchpriority="low"'} decoding="async" width="1440" height="960">${i>1?'<noscript><img src="/assets/'+s.im+'.webp" alt="'+s.alt+'" loading="lazy" width="1440" height="960"></noscript>':''}
+ ${i===1?'<svg class="dna-weave" viewBox="0 0 1440 960" aria-hidden="true"><path pathLength="1" d="M420 350Q720 430 720 540"/><path pathLength="1" d="M1020 350Q720 430 720 540"/></svg><span class="lineage-equation" aria-hidden="true"><span>Sarika</span><b>×</b><span>Kamal Haasan</span><b>=</b><strong>Shruti Haasan</strong></span>':''}
+ <figcaption>${i===10?'<a href="https://www.linkedin.com/in/mosessampaul/">Moses Sam Paul Johnraj ↗</a>':i===1?'TWO LEGACIES / HER OWN FIRE':s.cap}</figcaption></figure>
  ${i===0?'<p class="scroll-invitation">Swipe up to begin <span aria-hidden="true">↓</span></p>':''}
- </div></section>`).join('')+'</div>';
+ </div></section>`).join('')+'<button class="motion-toggle" type="button" hidden aria-pressed="false">Pause illustrations</button></div>';
 const frames=[...story.querySelectorAll('.scene')];
+const motionToggle=story.querySelector('.motion-toggle');
+let illustrationsPaused=false;
+motionToggle.hidden=!window.LivingArt?.available||reduced.matches;
+motionToggle.addEventListener('click',()=>{illustrationsPaused=!illustrationsPaused;window.LivingArt?.setPaused(illustrationsPaused);motionToggle.setAttribute('aria-pressed',String(illustrationsPaused));motionToggle.textContent=illustrationsPaused?'Play illustrations':'Pause illustrations'});
 const lineage=document.querySelector('#lineage');
 const durations=scenes.map(s=>s.id==='lineage'?1.65:1);
 const starts=[];let units=0;for(const duration of durations){starts.push(units);units+=duration;}
@@ -52,6 +57,11 @@ function paint(){
  const top=story.getBoundingClientRect().top+scrollY;
  const cursor=Math.max(0,(scrollY-top)/h);
  let active=0;while(active<frames.length-1&&cursor>=starts[active+1])active++;
+ // Fetch ahead of the current scene, rather than all twelve illustrations at startup.
+ for(let n=active;n<=Math.min(frames.length-1,active+1);n++){
+  const image=frames[n].querySelector('.scene-art>img');
+  if(image.dataset.src){image.src=image.dataset.src;delete image.dataset.src;}
+ }
  const local=clamp((cursor-starts[active])/durations[active]);
  const mix=active===frames.length-1?0:ease((local-.60)/.40);
  frames.forEach((frame,i)=>{
@@ -76,6 +86,10 @@ function paint(){
   frame.inert=!isActive;frame.setAttribute('aria-hidden',String(!isActive));
   frame.classList.toggle('is-active',isActive);
  });
+ const chosen=mix>.5?active+1:active;
+ const onScreen=story.getBoundingClientRect().bottom>0;
+ window.LivingArt?.setScene(!reduced.matches&&onScreen?frames[chosen]:null,clamp((cursor-starts[chosen])/durations[chosen]));
+ motionToggle.hidden=!window.LivingArt?.available||reduced.matches;
  const lp=reduced.matches?1:clamp((cursor-starts[1])/durations[1]);
  lineage.style.setProperty('--lineage-solid',(43+lp*62).toFixed(2)+'%');
  lineage.style.setProperty('--lineage-end',(57+lp*62).toFixed(2)+'%');
@@ -92,9 +106,13 @@ function paint(){
 }
 function queue(){if(!queued){queued=true;requestAnimationFrame(paint)}}
 addEventListener('scroll',queue,{passive:true});addEventListener('resize',size);reduced.addEventListener('change',size);
-// Story anchors map to their scroll positions; wheel, touch, and keyboard scrolling stay native.
-for(const anchor of document.querySelectorAll('a[href="#invitation"]'))anchor.addEventListener('click',event=>{event.preventDefault();scrollTo({top:0,behavior:reduced.matches?'instant':'smooth'})});
-size();paint();
+// Shareable scene anchors map to the native scroll timeline, without intercepting swipes.
+function followSceneHash(){
+ const id=location.hash.slice(1),i=frames.findIndex(frame=>frame.id===id);
+ if(i>=0&&!reduced.matches)scrollTo({top:story.offsetTop+starts[i]*document.documentElement.clientHeight,behavior:'instant'});
+}
+addEventListener('hashchange',followSceneHash);addEventListener('load',followSceneHash);
+size();paint();followSceneHash();
 const form=document.querySelector('#ps-signup-form');
 const button=document.querySelector('#ps-submit');
 const status=document.querySelector('#ps-form-status');
