@@ -62,3 +62,7 @@ Evidence is retained in `docs/qa/`. Trail source attribution is recorded in `doc
 ## Published release verification
 
 The post-deployment route matrix returned 200 on all twelve current routes/assets checked, including both public pages, all three dragon thumbnails and both social cards. Two representative legacy illustration URLs returned the expected 301 to optimized variants. The live page exposed all five FAQ entries and the six-node homepage graph; the native FAQ toggle and footer removal were verified in the browser. Layout checks passed at 320px and 360px widths without horizontal overflow.
+
+## Copy follow-up — 14 November 2026
+
+Renamed the visible journey to Date Yourself and changed the CTA to “Date yourself first.” Replaced ambiguous card counts with explicit Days 1–30, 31–60 and 61–90. The FAQ, entity descriptions, social titles and privacy copy use the same name. The existing internal Netlify form identifier remains unchanged to preserve submission continuity. Existing source/schema consistency checks pass after the wording update.

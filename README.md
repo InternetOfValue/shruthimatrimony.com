@@ -1,4 +1,4 @@
-# Shruthi Matrimony / Become Worth
+# Shruthi Matrimony / Date Yourself
 
 An independent creative story and proposed 90-day programme at https://shruthimatrimony.com. Seraphina is a fictional dragon goddess. This project is not affiliated with or endorsed by Shruti Haasan and offers no dates or introductions. Illustrations are generated artwork; the trail guardians are reused from HouseOfBros at the creator's request.
 
@@ -25,3 +25,5 @@ After changing story/FAQ/trail content, run the build and checker. Netlify also 
 Original story drawings and source trail variants are preserved in `artwork-originals/`, outside the deployed directory. The site serves optimized 540px/1080px WebP drawings, fetches ahead of the current scene, and lazy-loads the three small dragon trail images. Previously shared illustration URLs redirect to current variants on Netlify. Social cards are local JPEGs.
 
 Offline image regeneration uses `scripts/prepare-images.mjs` with a local `sharp` module, or an explicit `IMAGE_OPTIMIZER_MODULE` path. Image processing is not part of the deploy/runtime. See `docs/trail-artwork-sources.md` for HouseOfBros artwork provenance.
+
+The reader-facing journey is called Date Yourself, with the CTA “Date yourself first.” The existing internal Netlify form name `become-worth` is retained so existing submissions remain in the same form. The trail cards show explicit day ranges: 1–30, 31–60 and 61–90.
